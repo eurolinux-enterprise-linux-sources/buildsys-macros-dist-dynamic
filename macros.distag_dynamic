@@ -1,0 +1,81 @@
+#
+# suffix list:
+#  cf   - Cloud Forms
+#  dsrv - Directory Server
+#  ev   - Enterprise Virtulization
+#  op   - Open Shift
+#  ost  - Open Stack
+#  rhs  - Storage Server
+#  rt   - Real Time (MRG)
+#  sat  - Satellite Server
+#
+#  ep6.el  - jboss?
+#
+
+%undefine %dist
+
+%__get_tag_from_default_mockdir %{expand:%%(result=el%{rhel}             \
+result="el%{rhel}"                                                       \
+prefix=''                                                                \
+for i in $( ( cd ~/rpmbuild/SRPMS          && ls *.src.rpm ;             \
+              cd /builddir/build/originals && ls *.src.rpm ;             \
+            ) 2>/dev/null | tr '.' ' ' ); do                             \
+    if [[ "$i" == "ep6" ]]; then                                         \
+        prefix='ep6.'                                                    \
+    fi                                                                   \
+    if [[ "$i" == "sl%{rhel}" ]]; then                                   \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_0" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_1" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_2" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_3" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_4" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_5" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_6" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_7" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_8" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_9" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_10" ]]; then                              \
+        result=$i                                                        \
+    elif [[ "$i" == "sl%{rhel}_11" ]]; then                              \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}cf" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}dsrv" ]]; then                             \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}ev" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}op" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}ost" ]]; then                              \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}rhs" ]]; then                              \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}rt" ]]; then                               \
+        result=$i                                                        \
+    elif [[ "$i" == "el%{rhel}sat" ]]; then                              \
+        result=$i                                                        \
+    else                                                                 \
+        for minor in $(seq 0 20); do                                     \
+            min_tag=el%{rhel}_${minor}                                   \
+            if [[ "$i" == "$min_tag" ]]; then                            \
+                result=$i                                                \
+            fi                                                           \
+        done                                                             \
+    fi                                                                   \
+done                                                                     \
+echo "### dynamic detect dist-tag of .${prefix}${result}" >&2            \
+echo .${prefix}${result} )}
+
+%dist %__get_tag_from_default_mockdir
+%undefine %__get_tag_from_default_mockdir
